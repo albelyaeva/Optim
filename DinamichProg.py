@@ -23,7 +23,7 @@ for j in range(sum_plan.shape[1]):
     for i in range(sum_plan.shape[0]):
         plan[i][j] = int(plan[i][j])
 
-'''Расчет наилучшего распределения i инвестиций в j-тый университет'''
+
 for j in range(sum_plan.shape[1]):
     for i in range(min(tot_inv+1, years_of_inv)):
         lst = [1 if idx < i else 0 for idx in range(years_of_inv-1)]
@@ -44,10 +44,10 @@ for j in range(sum_plan.shape[1]):
         sum_plan[i, j] = max
         investments[i, j] = comb_new
 
-'''dict_sum - словарь для расчета по формуле Беллмана'''
+
 dict_sum = {i: [0, ''] for i in range(tot_inv+1)}
 
-'''Расчет по формуле Беллмана. В качестве шага берется j-тый университет'''
+
 for step in range(sum_plan.shape[1]):
     add_dict = {}
     for key in dict_sum.keys():
@@ -61,10 +61,10 @@ for step in range(sum_plan.shape[1]):
                 add_dict.update({new_key: [new_value, new_str]})
     dict_sum.update(add_dict)
 
-'''Запись оптимального распределения инвестиций'''
+
 investments = [[int(sym) for sym in dict_sum[tot_inv][1][i:i+(len(dict_sum[tot_inv][1])//corp)]] for i in range(0, len(dict_sum[tot_inv][1]), len(dict_sum[tot_inv][1])//corp)]
 
-'''Запись в файл'''
+
 with open('output.txt', 'w') as file:
     file.write('{0}\n'.format(dict_sum[tot_inv][0]))
     for j in range(len(investments[0])):
